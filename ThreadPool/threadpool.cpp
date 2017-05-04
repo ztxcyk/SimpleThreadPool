@@ -1,3 +1,5 @@
+//#include "ThreadPool.cpp" 
+
 #include <cassert>  
 #include "ThreadPool.h"  
 using namespace xcyk;
@@ -63,9 +65,11 @@ void ThreadPool::run(const Task &f)
 		{
 			m_notFull.wait(lock);
 		}
+		m_judge_mutex.lock();
 		assert(!isFull());
 		m_queue.push_back(f);
 		m_notEmpty.notify_one();
+		m_judge_mutex.unlock();
 	}
 }
 
@@ -79,6 +83,7 @@ ThreadPool::Task ThreadPool::take()
 	}
 
 	Task task;
+	m_judge_mutex.lock();
 	if (!m_queue.empty())
 	{
 		task = m_queue.front();
@@ -89,6 +94,7 @@ ThreadPool::Task ThreadPool::take()
 			m_notFull.notify_one();
 		}
 	}
+	m_judge_mutex.unlock();
 	return task;
 }
 

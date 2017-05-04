@@ -1,3 +1,6 @@
+//test
+
+
 #include <iostream> 
 #include<windows.h>
 #include "ThreadPool.h"  
@@ -28,7 +31,3 @@ int main()
 	getchar();
 	return 0;
 }
-
-//注意：
-//1.为线程池添加任务之前一定要调用setMaxQueueSize，设置任务队列可存放的最大任务数
-//2 若不调用start创建线程，则线程池退化为单线程

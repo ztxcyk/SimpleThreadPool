@@ -1,3 +1,8 @@
+//#include "ThreadPool.h" 
+//注意：
+//1.为线程池添加任务之前一定要调用setMaxQueueSize，设置任务队列可存放的最大任务数
+//2 若不调用start创建线程，则线程池退化为单线程
+
 #pragma once
 
 #include<thread>
@@ -31,6 +36,7 @@ namespace xcyk
 		Task take();//任务队列中取出一个任务
 
 		std::mutex m_mutex;
+		std::mutex m_judge_mutex;
 		std::condition_variable m_notEmpty;
 		std::condition_variable m_notFull;
 		std::string m_name;
